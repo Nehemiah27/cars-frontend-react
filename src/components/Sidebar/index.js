@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -11,6 +11,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import WebURL from "../../enum/WebURL";
 
 const Sidebar = ({ isSidebarOpen }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
@@ -26,7 +27,10 @@ const Sidebar = ({ isSidebarOpen }) => {
         }}
       >
         <h2>Car Management</h2>
-        <HomeIcon sx={{ cursor: "pointer" }} />
+        <HomeIcon
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate(WebURL.HOME_PAGE)}
+        />
       </Typography>
       <List>
         <ListItem

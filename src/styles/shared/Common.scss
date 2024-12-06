@@ -8,7 +8,41 @@
     flex-direction: column;
     transform: margin-left 0.3s ease-in-out;
     &.shifted {
-      margin-left: -250px;
+      margin-left: -15.625rem;
     }
   }
 }
+
+$scrollbar-bg: #f0f0f0; 
+$scrollbar-thumb: #888; 
+$scrollbar-thumb-hover: #555; 
+$scrollbar-thumb-active: #333; 
+
+::-webkit-scrollbar {
+  width: 0.75rem; 
+  height: 0.75rem; 
+}
+
+::-webkit-scrollbar-track {
+  background: $scrollbar-bg; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-thumb; 
+  border-radius: 0.375rem; 
+  border: 0.125rem solid $scrollbar-bg; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: $scrollbar-thumb-hover; 
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: $scrollbar-thumb-active; 
+}
+
+* {
+  scrollbar-width: thin; 
+  scrollbar-color: $scrollbar-thumb $scrollbar-bg; 
+}
+

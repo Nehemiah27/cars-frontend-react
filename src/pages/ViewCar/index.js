@@ -1,31 +1,48 @@
-import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   Button,
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   IconButton,
-// } from "@mui/material";
-// import {
-//   Add as AddIcon,
-//   Visibility as VisibilityIcon,
-// } from "@mui/icons-material";
-// import WebURL from "../../enum/WebURL";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import WebURL from "../../enum/WebURL";
+import APIURL from "../../enum/APIURL";
+import { useLoader } from "../../context/LoaderContext";
 
 const ViewCarsPage = () => {
-  // const navigate = useNavigate();
-  // const cars = [
-  //   { id: "1", name: "Toyota Corolla", carID: "adfafdf92384u284" },
-  //   { id: "2", name: "Honda Civic", carID: "adfafdf92384u285" },
-  // ];
+  const { showLoader, hideLoader } = useLoader();
+  const navigate = useNavigate();
+  const [cars, setCars] = useState([]);
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const fetchData = async () => {
+    try {
+      showLoader();
+      const response = await fetch(`${apiBaseUrl}${APIURL.VIEW_CARS}`, {
+        method: "GET",
+      });
+
+      const result = await response.json();
+      setCars(result.data);
+    } catch (error) {
+    } finally {
+      hideLoader();
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="view-cars-page">
-      {/* <div className="header">
-        <h1>View Cars</h1>
+      <div className="view-car-header">
         <Button
           variant="contained"
           color="primary"
@@ -38,32 +55,43 @@ const ViewCarsPage = () => {
       </div>
 
       <div className="table-container">
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell>No.</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {cars.map((car, index) => (
-              <TableRow key={car.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{car.name}</TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    onClick={() => navigate(`/view-car?carID=${car.carID}`)}
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div> */}
+        {cars.length ? (
+          <>
+            {" "}
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ width: "1.5rem" }}>No.</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell sx={{ width: "3.125rem" }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cars.map((car, index) => (
+                  <TableRow key={car.carID}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{car.name}</TableCell>
+                    <TableCell>
+                      <Tooltip title="View Car data">
+                        <IconButton
+                          color="primary"
+                          onClick={() =>
+                            navigate(`${WebURL.CAR_DATA}?carID=${car.carID}`)
+                          }
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </>
+        ) : (
+          "No Cars available to show"
+        )}
+      </div>
     </div>
   );
 };
