@@ -25,7 +25,7 @@ const Specs = ({ carData, carID, fetchCarData }) => {
       overview: "Overview",
       engineAndTransmission: "Engine & Transmission",
       hybridSystem: "Hybrid System",
-      hybridSystem: "Performance & Efficiency",
+      performanceAndEfficiency: "Performance & Efficiency",
       exteriorEquipment: "Exterior Equipment",
       interiorEquipment: "Interior Equipment",
       seatsAndUpholestry: "Seats & Upholestry",
